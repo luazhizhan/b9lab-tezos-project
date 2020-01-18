@@ -13,3 +13,5 @@ The exam of [B9Lab Tezos developer course](https://tezos.b9lab.com/) required me
 - The faucets folder consists of two babylonnet accounts which are used in this project.
 
 ## Screenshots
+<img src="https://raw.githubusercontent.com/luazhizhan/b9lab-tezos-project/master/screenshots/dama.png" alt="Dama web app" width="500" height="500"> 
+<img src="https://raw.githubusercontent.com/luazhizhan/b9lab-tezos-project/master/screenshots/dama2.png" alt="Dama smart contract" width="500" height="500">
