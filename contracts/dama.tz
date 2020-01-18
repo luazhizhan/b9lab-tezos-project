@@ -1,0 +1,1868 @@
+parameter (pair (pair (pair (int %start_x) (int %start_y)) (int %target_x)) (int %target_y));
+storage (pair (pair (pair (pair (pair (pair (pair (list %blackPieces (pair (pair (pair (bool %alive) (bool %isKing)) (int %x)) (int %y))) (bool %ended)) (address %player1)) (address %player2)) (address %recentPlayer)) (list %redPieces (pair (pair (pair (bool %alive) (bool %isKing)) (int %x)) (int %y)))) (pair %status (pair (pair (pair (bool %eaten) (bool %isBlock)) (bool %moveTwoStep)) (int %somethingToEat)) (bool %validMove))) (string %winner));
+code
+  {
+    DUP; CDR; SWAP; CAR; SWAP; DUP; DUG 2; CAAADR; SENDER; COMPARE; NEQ;
+    IF
+      {
+      }
+      {
+        PUSH string "WrongCondition: sp.sender != self.data.recentPlayer"; FAILWITH;
+      };
+    SWAP; DUP; DUG 2; CAAAAAADR; NOT;
+    IF
+      {
+      }
+      {
+        PUSH string "WrongCondition: ~ self.data.ended"; FAILWITH;
+      };
+    SWAP; DUP; DUG 2; CAAADR; DIG 2; DUP; DUG 3; CAAAAADR; COMPARE; EQ;
+    IF
+      {
+        SWAP; DUP; DUG 2; CAADR;
+        ITER
+          {
+            SWAP; DUP; DUG 2; CAADR; SWAP; DUP; DUG 2; CDR; COMPARE; EQ;
+            IF
+              {
+                SWAP; DUP; DUG 2; CAAAR; SWAP; DUP; DUG 2; CADR; COMPARE; EQ;
+              }
+              {
+                PUSH bool False;
+              };
+            IF
+              {
+                DUP; CAADR; NOT;
+              }
+              {
+                PUSH bool False;
+              };
+            IF
+              {
+                DIG 2; DUP; DUG 3; CAAAAADR; SENDER; COMPARE; EQ;
+                IF
+                  {
+                    PUSH int 2; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; LE;
+                    IF
+                      {
+                        PUSH int 1; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; GE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                    PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; GE;
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; LE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                  }
+                  {
+                    PUSH int 2; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; LE;
+                    IF
+                      {
+                        PUSH int 1; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; GE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                    PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; GE;
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; LE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                  };
+              }
+              {
+              };
+            DROP;
+          };
+        SWAP; DUP; DUG 2; CADDR;
+        IF
+          {
+          }
+          {
+            PUSH string "WrongCondition: self.data.status.validMove"; FAILWITH;
+          };
+        SWAP; DUP; DUG 2; CAADR;
+        MAP
+          {
+            DIG 2; DUP; DUG 3; CAAAAAAAR;
+            MAP
+              {
+                DUP; CADR; PUSH int -1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                IF
+                  {
+                    DUP; CDR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DIG 3; DUP; DUG 4; CAADR;
+                    ITER
+                      {
+                        DUP; CADR; PUSH int -1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DUP; CDR; DIG 3; DUP; DUG 4; CDR; COMPARE; EQ;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DUP; CAAAR;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DIG 4; DUP; DUG 5; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAAR; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 5; DIG 4; DROP;
+                          }
+                          {
+                          };
+                        DROP;
+                      };
+                    DIG 3; DUP; DUG 4; CADAAADR; NOT;
+                    IF
+                      {
+                        DIG 3; DUP; DUG 4; DUP; CADR; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; ADD; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            SWAP; DUP; DUG 2; CAADR;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; CAADR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                            IF
+                              {
+                                DIG 2; DUP; DUG 3; CAAAR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                              }
+                              {
+                                PUSH bool False;
+                              };
+                            IF
+                              {
+                                DUP; PUSH bool False; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CADR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CADR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CDR; SWAP; CAR; PAIR; DUG 2; SWAP; DROP; DIG 3; DUP; DUG 4; DUP; CADR; PUSH bool True; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CADR; SWAP; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 0; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                                IF
+                                  {
+                                    SWAP; DUP; DUG 2; PUSH bool True; SWAP; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CAAR; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+                                  }
+                                  {
+                                  };
+                              }
+                              {
+                              };
+                          }
+                          {
+                          };
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+                DUP; CADR; PUSH int 1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                IF
+                  {
+                    DUP; CDR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DIG 3; DUP; DUG 4; CAADR;
+                    ITER
+                      {
+                        DUP; CADR; PUSH int 1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DUP; CDR; DIG 3; DUP; DUG 4; CDR; COMPARE; EQ;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DUP; CAAAR;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DIG 4; DUP; DUG 5; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAAR; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 5; DIG 4; DROP;
+                          }
+                          {
+                          };
+                        DROP;
+                      };
+                    DIG 3; DUP; DUG 4; CADAAADR; NOT;
+                    IF
+                      {
+                        DIG 3; DUP; DUG 4; DUP; CADR; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; ADD; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            SWAP; DUP; DUG 2; CAADR;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; CAADR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                            IF
+                              {
+                                DIG 2; DUP; DUG 3; CAAAR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                              }
+                              {
+                                PUSH bool False;
+                              };
+                            IF
+                              {
+                                DUP; PUSH bool False; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CADR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CADR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CDR; SWAP; CAR; PAIR; DUG 2; SWAP; DROP; DIG 3; DUP; DUG 4; DUP; CADR; PUSH bool True; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CADR; SWAP; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 0; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                                IF
+                                  {
+                                    SWAP; DUP; DUG 2; PUSH bool True; SWAP; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CAAR; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+                                  }
+                                  {
+                                  };
+                              }
+                              {
+                              };
+                          }
+                          {
+                          };
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+                DUP; CDR; PUSH int 1; SWAP; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                IF
+                  {
+                    DUP; CADR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DIG 3; DUP; DUG 4; CAAAAAAAR;
+                    ITER
+                      {
+                        PUSH int -1; DIG 2; DUP; DUG 3; CDR; DIG 2; DUP; DUG 3; CDR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            SWAP; DUP; DUG 2; CADR; SWAP; DUP; DUG 2; CADR; COMPARE; EQ;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DUP; CAAAR;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DIG 4; DUP; DUG 5; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAAR; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 5; DIG 4; DROP;
+                          }
+                          {
+                          };
+                        DROP;
+                      };
+                    DIG 3; DUP; DUG 4; CADAAADR; NOT;
+                    IF
+                      {
+                        DIG 3; DUP; DUG 4; DUP; CADR; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; ADD; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 2; DIG 3; DUP; DUG 4; CDR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 3; DUP; DUG 4; CDR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            SWAP; DUP; DUG 2; CAADR;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; CAADR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                            IF
+                              {
+                                DIG 2; DUP; DUG 3; CAAAR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                              }
+                              {
+                                PUSH bool False;
+                              };
+                            IF
+                              {
+                                DUP; PUSH bool False; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CADR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CADR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CDR; SWAP; CAR; PAIR; DUG 2; SWAP; DROP; DIG 3; DUP; DUG 4; DUP; CADR; PUSH bool True; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CADR; SWAP; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 0; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                                IF
+                                  {
+                                    SWAP; DUP; DUG 2; PUSH bool True; SWAP; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CAAR; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+                                  }
+                                  {
+                                  };
+                              }
+                              {
+                              };
+                          }
+                          {
+                          };
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+              };
+            SWAP; DIG 3; DUP; DUG 4; DIG 2; DUP; DUG 3; SWAP; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAR; DUP;
+                    DIP
+                      {
+                        CAR; DUP;
+                        DIP
+                          {
+                            CAR; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CADR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR;
+                          };
+                        CDR; SWAP; PAIR;
+                      };
+                    CDR; SWAP; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; SWAP; DROP;
+          };
+        SWAP; DIG 2; DUP; DUG 3; DIG 2; DUP; DUG 3; SWAP; DUP;
+        DIP
+          {
+            CAR; DUP;
+            DIP
+              {
+                CAAR; PAIR;
+              };
+            CDR; SWAP; PAIR;
+          };
+        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP; SWAP; DROP; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; COMPARE; GE;
+        IF
+          {
+            SWAP; DUP; DUG 2; CADAAAAR;
+            IF
+              {
+              }
+              {
+                PUSH string "WrongCondition: self.data.status.eaten"; FAILWITH;
+              };
+          }
+          {
+            SWAP; DUP; DUG 2; CADAADR; NOT;
+            IF
+              {
+              }
+              {
+                PUSH string "WrongCondition: ~ self.data.status.moveTwoStep"; FAILWITH;
+              };
+            SWAP; DUP; DUG 2; CAADR;
+            MAP
+              {
+                SWAP; DUP; DUG 2; CAADR; SWAP; DUP; DUG 2; CDR; COMPARE; EQ;
+                IF
+                  {
+                    SWAP; DUP; DUG 2; CAAAR; SWAP; DUP; DUG 2; CADR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DUP; DIG 2; DUP; DUG 3; CADR; SWAP; DUP;
+                    DIP
+                      {
+                        CAAR; PAIR;
+                      };
+                    CDR; SWAP; PAIR; SWAP; DROP; DUP; DIG 2; DUP; DUG 3; CDR; SWAP; CAR; PAIR; SWAP; DROP; DUP; CDR; PUSH int 0; COMPARE; EQ;
+                    IF
+                      {
+                        DUP; PUSH bool True; SWAP; DUP;
+                        DIP
+                          {
+                            CAR; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DROP;
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+              };
+            SWAP; DIG 2; DUP; DUG 3; DIG 2; DUP; DUG 3; SWAP; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAAR; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP; SWAP; DROP;
+          };
+        SWAP; DUP; DUG 2; CAAAAAAAR;
+        ITER
+          {
+            DUP; CAAAR; PUSH bool True; COMPARE; EQ;
+            IF
+              {
+              }
+              {
+              };
+            DROP;
+          };
+        PUSH int 1; DIG 2; DUP; DUG 3; CADADR; COMPARE; LE;
+        IF
+          {
+            SWAP; DUP; DUG 2; DUP; CAAAADR; SWAP; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAR; DUP;
+                    DIP
+                      {
+                        CAAR; PAIR;
+                      };
+                    CDR; SWAP; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+          }
+          {
+          };
+      }
+      {
+        SWAP; DUP; DUG 2; CAAAAAAAR;
+        ITER
+          {
+            SWAP; DUP; DUG 2; CAADR; SWAP; DUP; DUG 2; CDR; COMPARE; EQ;
+            IF
+              {
+                SWAP; DUP; DUG 2; CAAAR; SWAP; DUP; DUG 2; CADR; COMPARE; EQ;
+              }
+              {
+                PUSH bool False;
+              };
+            IF
+              {
+                DUP; CAADR; NOT;
+              }
+              {
+                PUSH bool False;
+              };
+            IF
+              {
+                DIG 2; DUP; DUG 3; CAAAAADR; SENDER; COMPARE; EQ;
+                IF
+                  {
+                    PUSH int 2; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; LE;
+                    IF
+                      {
+                        PUSH int 1; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; GE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                    PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; GE;
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; LE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CAADR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                  }
+                  {
+                    PUSH int 2; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; LE;
+                    IF
+                      {
+                        PUSH int 1; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; GE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                    PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; GE;
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; LE;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 0; DIG 2; DUP; DUG 3; CDR; DIG 3; DUP; DUG 4; CAADR; SUB; COMPARE; EQ;
+                      }
+                      {
+                        PUSH bool False;
+                      };
+                    IF
+                      {
+                        PUSH int 2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 2; DUP; DUG 3; CAAAR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                          }
+                          {
+                          };
+                        DIG 2; DUP; DUG 3; DUP; CADAR; PUSH bool True; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP;
+                      }
+                      {
+                      };
+                  };
+              }
+              {
+              };
+            DROP;
+          };
+        SWAP; DUP; DUG 2; CADDR;
+        IF
+          {
+          }
+          {
+            PUSH string "WrongCondition: self.data.status.validMove"; FAILWITH;
+          };
+        SWAP; DUP; DUG 2; CAAAAAAAR;
+        MAP
+          {
+            DIG 2; DUP; DUG 3; CAADR;
+            MAP
+              {
+                DUP; CADR; PUSH int 1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                IF
+                  {
+                    DUP; CDR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DIG 3; DUP; DUG 4; CAADR;
+                    ITER
+                      {
+                        DUP; CADR; PUSH int 1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DUP; CDR; DIG 3; DUP; DUG 4; CDR; COMPARE; EQ;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DUP; CAAAR;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DIG 4; DUP; DUG 5; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAAR; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 5; DIG 4; DROP;
+                          }
+                          {
+                          };
+                        DROP;
+                      };
+                    DIG 3; DUP; DUG 4; CADAAADR; NOT;
+                    IF
+                      {
+                        DIG 3; DUP; DUG 4; DUP; CADR; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; ADD; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            SWAP; DUP; DUG 2; CAADR;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; CAADR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                            IF
+                              {
+                                DIG 2; DUP; DUG 3; CAAAR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                              }
+                              {
+                                PUSH bool False;
+                              };
+                            IF
+                              {
+                                DUP; PUSH bool False; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CADR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CADR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CDR; SWAP; CAR; PAIR; DUG 2; SWAP; DROP; DIG 3; DUP; DUG 4; DUP; CADR; PUSH bool True; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CADR; SWAP; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 7; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                                IF
+                                  {
+                                    SWAP; DUP; DUG 2; PUSH bool True; SWAP; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CAAR; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+                                  }
+                                  {
+                                  };
+                              }
+                              {
+                              };
+                          }
+                          {
+                          };
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+                DUP; CADR; PUSH int -1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                IF
+                  {
+                    DUP; CDR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DIG 3; DUP; DUG 4; CAADR;
+                    ITER
+                      {
+                        DUP; CADR; PUSH int -1; SWAP; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            DUP; CDR; DIG 3; DUP; DUG 4; CDR; COMPARE; EQ;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DUP; CAAAR;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DIG 4; DUP; DUG 5; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAAR; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 5; DIG 4; DROP;
+                          }
+                          {
+                          };
+                        DROP;
+                      };
+                    DIG 3; DUP; DUG 4; CADAAADR; NOT;
+                    IF
+                      {
+                        DIG 3; DUP; DUG 4; DUP; CADR; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; ADD; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 3; DUP; DUG 4; CADR; DIG 3; DUP; DUG 4; CADR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            SWAP; DUP; DUG 2; CAADR;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; CAADR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                            IF
+                              {
+                                DIG 2; DUP; DUG 3; CAAAR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                              }
+                              {
+                                PUSH bool False;
+                              };
+                            IF
+                              {
+                                DUP; PUSH bool False; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CADR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CADR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CDR; SWAP; CAR; PAIR; DUG 2; SWAP; DROP; DIG 3; DUP; DUG 4; DUP; CADR; PUSH bool True; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CADR; SWAP; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 7; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                                IF
+                                  {
+                                    SWAP; DUP; DUG 2; PUSH bool True; SWAP; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CAAR; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+                                  }
+                                  {
+                                  };
+                              }
+                              {
+                              };
+                          }
+                          {
+                          };
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+                DUP; CDR; PUSH int -1; SWAP; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                IF
+                  {
+                    DUP; CADR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DIG 3; DUP; DUG 4; CAADR;
+                    ITER
+                      {
+                        PUSH int 1; DIG 2; DUP; DUG 3; CDR; DIG 2; DUP; DUG 3; CDR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            SWAP; DUP; DUG 2; CADR; SWAP; DUP; DUG 2; CADR; COMPARE; EQ;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DUP; CAAAR;
+                          }
+                          {
+                            PUSH bool False;
+                          };
+                        IF
+                          {
+                            DIG 4; DUP; DUG 5; DUP; CADR; PUSH bool True; SWAP; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAAR; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR; SWAP; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR; DUG 5; DIG 4; DROP;
+                          }
+                          {
+                          };
+                        DROP;
+                      };
+                    DIG 3; DUP; DUG 4; CADAAADR; NOT;
+                    IF
+                      {
+                        DIG 3; DUP; DUG 4; DUP; CADR; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; ADD; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DUP;
+                        DIP
+                          {
+                            CAAR; PAIR;
+                          };
+                        CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 2; DIG 3; DUP; DUG 4; CDR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            PUSH int -2; DIG 3; DUP; DUG 4; CDR; DIG 3; DUP; DUG 4; CDR; SUB; COMPARE; EQ;
+                          };
+                        IF
+                          {
+                            PUSH bool True;
+                          }
+                          {
+                            SWAP; DUP; DUG 2; CAADR;
+                          };
+                        IF
+                          {
+                            DIG 2; DUP; DUG 3; CAADR; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                            IF
+                              {
+                                DIG 2; DUP; DUG 3; CAAAR; DIG 2; DUP; DUG 3; CADR; COMPARE; EQ;
+                              }
+                              {
+                                PUSH bool False;
+                              };
+                            IF
+                              {
+                                DUP; PUSH bool False; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CADR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CADR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DIG 3; DUP; DUG 4; CDR; SWAP; CAR; PAIR; DUG 2; SWAP; DROP; DIG 3; DUP; DUG 4; DUP; CADR; PUSH bool True; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAR; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CADR; SWAP; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; SWAP; DUP;
+                                DIP
+                                  {
+                                    CAAR; PAIR;
+                                  };
+                                CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; PUSH int 7; DIG 2; DUP; DUG 3; CDR; COMPARE; EQ;
+                                IF
+                                  {
+                                    SWAP; DUP; DUG 2; PUSH bool True; SWAP; DUP;
+                                    DIP
+                                      {
+                                        CAR; DUP;
+                                        DIP
+                                          {
+                                            CAAR; PAIR;
+                                          };
+                                        CDR; SWAP; PAIR;
+                                      };
+                                    CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+                                  }
+                                  {
+                                  };
+                              }
+                              {
+                              };
+                          }
+                          {
+                          };
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+              };
+            SWAP; DIG 3; DUP; DUG 4; DIG 2; DUP; DUG 3; SWAP; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAAR; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR; DUG 4; DIG 3; DROP; SWAP; DROP;
+          };
+        SWAP; DIG 2; DUP; DUG 3; DIG 2; DUP; DUG 3; SWAP; DUP;
+        DIP
+          {
+            CAR; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAR; DUP;
+                    DIP
+                      {
+                        CAR; DUP;
+                        DIP
+                          {
+                            CAR; DUP;
+                            DIP
+                              {
+                                CADR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR;
+                          };
+                        CDR; SWAP; PAIR;
+                      };
+                    CDR; SWAP; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR;
+          };
+        CDR; SWAP; PAIR; DUG 3; DIG 2; DROP; SWAP; DROP; PUSH int 1; DIG 2; DUP; DUG 3; CADADR; COMPARE; GE;
+        IF
+          {
+            SWAP; DUP; DUG 2; CADAAAAR;
+            IF
+              {
+              }
+              {
+                PUSH string "WrongCondition: self.data.status.eaten"; FAILWITH;
+              };
+          }
+          {
+            SWAP; DUP; DUG 2; CADAADR; NOT;
+            IF
+              {
+              }
+              {
+                PUSH string "WrongCondition: ~ self.data.status.moveTwoStep"; FAILWITH;
+              };
+            SWAP; DUP; DUG 2; CAAAAAAAR;
+            MAP
+              {
+                SWAP; DUP; DUG 2; CAADR; SWAP; DUP; DUG 2; CDR; COMPARE; EQ;
+                IF
+                  {
+                    SWAP; DUP; DUG 2; CAAAR; SWAP; DUP; DUG 2; CADR; COMPARE; EQ;
+                  }
+                  {
+                    PUSH bool False;
+                  };
+                IF
+                  {
+                    DUP; DIG 2; DUP; DUG 3; CADR; SWAP; DUP;
+                    DIP
+                      {
+                        CAAR; PAIR;
+                      };
+                    CDR; SWAP; PAIR; SWAP; DROP; DUP; DIG 2; DUP; DUG 3; CDR; SWAP; CAR; PAIR; SWAP; DROP; DUP; CDR; PUSH int 7; COMPARE; EQ;
+                    IF
+                      {
+                        DUP; PUSH bool True; SWAP; DUP;
+                        DIP
+                          {
+                            CAR; DUP;
+                            DIP
+                              {
+                                CAAR; PAIR;
+                              };
+                            CDR; SWAP; PAIR;
+                          };
+                        CDR; SWAP; PAIR; SWAP; DROP;
+                      }
+                      {
+                      };
+                  }
+                  {
+                  };
+              };
+            SWAP; DIG 2; DUP; DUG 3; DIG 2; DUP; DUG 3; SWAP; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAR; DUP;
+                    DIP
+                      {
+                        CAR; DUP;
+                        DIP
+                          {
+                            CAR; DUP;
+                            DIP
+                              {
+                                CAR; DUP;
+                                DIP
+                                  {
+                                    CADR; SWAP; PAIR;
+                                  };
+                                CDR; SWAP; PAIR;
+                              };
+                            CDR; SWAP; PAIR;
+                          };
+                        CDR; SWAP; PAIR;
+                      };
+                    CDR; SWAP; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR; DUG 3; DIG 2; DROP; SWAP; DROP;
+          };
+        SWAP; DUP; DUG 2; CAADR;
+        ITER
+          {
+            DUP; CAAAR; PUSH bool True; COMPARE; EQ;
+            IF
+              {
+              }
+              {
+              };
+            DROP;
+          };
+        PUSH int 1; DIG 2; DUP; DUG 3; CADADR; COMPARE; LE;
+        IF
+          {
+            SWAP; DUP; DUG 2; DUP; CAAAAADR; SWAP; DUP;
+            DIP
+              {
+                CAR; DUP;
+                DIP
+                  {
+                    CAR; DUP;
+                    DIP
+                      {
+                        CAAR; PAIR;
+                      };
+                    CDR; SWAP; PAIR;
+                  };
+                CDR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR; DUG 2; SWAP; DROP;
+          }
+          {
+          };
+      };
+    SWAP; DUP; DUG 2; DUP; CADR; PUSH bool False; SWAP; DUP;
+    DIP
+      {
+        CAR; DUP;
+        DIP
+          {
+            CAAR; PAIR;
+          };
+        CDR; SWAP; PAIR;
+      };
+    CDR; SWAP; PAIR; SWAP; DUP;
+    DIP
+      {
+        CAAR; PAIR;
+      };
+    CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DUP; CADR; PUSH int 0; SWAP; DUP;
+    DIP
+      {
+        CAAR; PAIR;
+      };
+    CDR; SWAP; PAIR; SWAP; DUP;
+    DIP
+      {
+        CAAR; PAIR;
+      };
+    CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DUP; CADR; PUSH bool False; SWAP; DUP;
+    DIP
+      {
+        CAR; DUP;
+        DIP
+          {
+            CAR; DUP;
+            DIP
+              {
+                CAAR; PAIR;
+              };
+            CDR; SWAP; PAIR;
+          };
+        CDR; SWAP; PAIR;
+      };
+    CDR; SWAP; PAIR; SWAP; DUP;
+    DIP
+      {
+        CAAR; PAIR;
+      };
+    CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DUP; CADAR; PUSH bool False; SWAP; PAIR; SWAP; DUP;
+    DIP
+      {
+        CAAR; PAIR;
+      };
+    CDR; SWAP; PAIR; DUG 2; SWAP; DROP; SWAP; DUP; DUG 2; DUP; CADR; PUSH bool False; SWAP; DUP;
+    DIP
+      {
+        CAR; DUP;
+        DIP
+          {
+            CAR; DUP;
+            DIP
+              {
+                CADR; SWAP; PAIR;
+              };
+            CDR; SWAP; PAIR;
+          };
+        CDR; SWAP; PAIR;
+      };
+    CDR; SWAP; PAIR; SWAP; DUP;
+    DIP
+      {
+        CAAR; PAIR;
+      };
+    CDR; SWAP; PAIR; DUG 2; DROP; DROP; NIL operation; PAIR;
+  }

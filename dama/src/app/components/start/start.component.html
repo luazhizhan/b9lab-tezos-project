@@ -1,0 +1,92 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Dama</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<button
+  mat-raised-button
+  color="accent"
+  class="startBtn"
+  (click)="startGameClick()"
+>
+  Start Game
+</button>
+<div class="table-div">
+  <table>
+    <tr *ngFor="let damaRow of damaBoard; index as rowIndex">
+      <td
+        *ngFor="let damaPiece of damaRow; index as pieceIndex"
+        [ngClass]="{
+          col: damaPiece.selected === false,
+          selCol: damaPiece.selected === true
+        }"
+        (click)="pieceClick(rowIndex, pieceIndex)"
+      >
+        <ng-container *ngIf="damaPiece.img === null; else imgPiece">
+          <div class="piece"></div>
+        </ng-container>
+        <ng-template #imgPiece>
+          <img [src]="damaPiece.img" class="piece" alt="chess piece" />
+        </ng-template>
+      </td>
+    </tr>
+  </table>
+
+  <br />
+</div>
+<div class="card-div">
+  <mat-card>
+    <mat-card-title
+      >Game Info <span *ngIf="isLoading">(Loading...)</span></mat-card-title
+    >
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon>assignment</mat-icon>
+          <h3 matLine>Contract</h3>
+          <p matLine>
+            {{ gameInfo.contract }}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>assignment</mat-icon>
+          <h3 matLine>Originated</h3>
+          <p matLine>
+            {{ gameInfo.originated }}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>account_circle</mat-icon>
+          <h3 matLine>Player 1 (Black)</h3>
+          <p matLine>
+            {{ gameInfo.player1 }}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>account_circle</mat-icon>
+          <h3 matLine>Player 2 (Red)</h3>
+          <p matLine>
+            {{ gameInfo.player2 }}
+          </p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>account_circle</mat-icon>
+          <h3 matLine>Current Player</h3>
+          <p matLine>Player {{ gameInfo.currentPlayer }}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon>start</mat-icon>
+          <h3 matLine>Winner</h3>
+          <p matLine>{{ gameInfo.winner }}</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  <span style="height: 300px; display: block; overflow: auto;">
+    <h2 style="font-weight: 500;">Game logs</h2>
+    <ul>
+      <li *ngFor="let info of logs">{{ info }}</li>
+    </ul>
+  </span>
+  <br />
+</div>

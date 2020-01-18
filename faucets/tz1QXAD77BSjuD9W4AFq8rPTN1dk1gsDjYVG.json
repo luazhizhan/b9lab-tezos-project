@@ -1,0 +1,24 @@
+{
+  "mnemonic": [
+    "door",
+    "bounce",
+    "giraffe",
+    "eager",
+    "host",
+    "girl",
+    "erosion",
+    "neglect",
+    "range",
+    "tobacco",
+    "limit",
+    "token",
+    "main",
+    "cup",
+    "snow"
+  ],
+  "secret": "456921e2e24c4c08654f5c021aaaacbd32479fbe",
+  "amount": "44912898802",
+  "pkh": "tz1QXAD77BSjuD9W4AFq8rPTN1dk1gsDjYVG",
+  "password": "KDuJnPUozZ",
+  "email": "jxltcipc.bajaxjfr@tezos.example.org"
+}
